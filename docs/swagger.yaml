@@ -1,0 +1,117 @@
+basePath: /
+definitions:
+  main.Address:
+    properties:
+      city:
+        type: string
+      house:
+        type: string
+      lat:
+        type: string
+      lon:
+        type: string
+      street:
+        type: string
+    type: object
+  main.GeocodeRequest:
+    properties:
+      lat:
+        type: string
+      lng:
+        type: string
+    type: object
+  main.GeocodeResponse:
+    properties:
+      addresses:
+        items:
+          $ref: '#/definitions/main.Address'
+        type: array
+    type: object
+  main.SearchRequest:
+    properties:
+      query:
+        type: string
+    type: object
+  main.SearchResponse:
+    properties:
+      addresses:
+        items:
+          $ref: '#/definitions/main.Address'
+        type: array
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Апишка по задаче на свагер
+  title: Kata Academy API
+  version: "1.0"
+paths:
+  /api/address/geocode:
+    post:
+      consumes:
+      - application/json
+      description: Возвращает информацию об адрессе по координатам
+      parameters:
+      - description: Координаты для геокодирования
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/main.GeocodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешный ответ с адресами
+          schema:
+            $ref: '#/definitions/main.GeocodeResponse'
+        "400":
+          description: Неверный формат запроса
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get address
+      tags:
+      - search
+  /api/address/search:
+    post:
+      consumes:
+      - application/json
+      description: Возвращает информацию об адрессе
+      parameters:
+      - description: Запрос для поиска адреса
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/main.SearchRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.SearchResponse'
+        "400":
+          description: Неверный формат запроса
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Ошибка сервера
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get address
+      tags:
+      - search
+swagger: "2.0"
