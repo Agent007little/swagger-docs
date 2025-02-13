@@ -195,8 +195,6 @@ var SwaggerInfo = &swag.Spec{
 	Description:      "Апишка по задаче на свагер",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
-	LeftDelim:        "{{",
-	RightDelim:       "}}",
 }
 
 func init() {
