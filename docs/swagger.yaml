@@ -27,6 +27,20 @@ definitions:
           $ref: '#/definitions/main.Address'
         type: array
     type: object
+  main.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  main.RegisterRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
   main.SearchRequest:
     properties:
       query:
@@ -114,4 +128,64 @@ paths:
       summary: Get address
       tags:
       - search
+  /api/login:
+    post:
+      consumes:
+      - application/json
+      description: Авторизует пользователя и возвращает JWT-токен
+      parameters:
+      - description: Данные для входа
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/main.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Failed to generate token
+          schema:
+            type: string
+        "403":
+          description: Invalid request
+          schema:
+            type: string
+      summary: Вход пользователя
+      tags:
+      - auth
+  /api/register:
+    post:
+      consumes:
+      - application/json
+      description: Регистрирует нового пользователя
+      parameters:
+      - description: Данные для регистрации
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/main.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: User registered successfully
+          schema:
+            type: string
+        "400":
+          description: Invalid request
+          schema:
+            type: string
+        "409":
+          description: User already exists
+          schema:
+            type: string
+        "500":
+          description: Failed to hash password
+          schema:
+            type: string
+      summary: Регистрация пользователя
+      tags:
+      - auth
 swagger: "2.0"
